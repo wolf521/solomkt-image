@@ -1,6 +1,12 @@
 {
   "hooks": [
     {
+      "event": "marketplace_add",
+      "description": "市场被添加到 Claude Code 时触发（/plugin marketplace add wolf521/solomkt-image）",
+      "action": "notify",
+      "message": "Image Generator 市场已添加。可用插件：image-generator\n安装插件请运行：/plugin marketplace add wolf521/solomkt-image"
+    },
+    {
       "event": "plugin_install",
       "description": "插件安装时强制要求配置 API Key",
       "action": "run_script",
@@ -9,7 +15,7 @@
       "required": true,
       "prompt": {
         "title": "Image Generator - API Key 配置",
-        "description": "首次安装此插件需要提供 GenerateImage API Key。\n\n请联系您的系统管理员获取 API Key。\nAPI 地址: https://prompt-manager-uat.issmart.com.cn/app-system-prompt/api/GenerateImage",
+        "description": "首次安装此插件需要提供 GenerateImage API Key。\n\n请联系您的系统管理员获取 API Key。\nAPI 地址: https://prompt-manager-uat.issmart.com.cn/app-system-prompt/api/GenerateImage\n\n安装命令: /plugin marketplace add wolf521/solomkt-image",
         "fields": [
           {
             "name": "api_key",
@@ -21,7 +27,7 @@
         ]
       },
       "on_success": {
-        "message": "API Key 已保存，图片生成插件安装完成！使用 /generate-image 开始生成图片。"
+        "message": "API Key 已保存，Image Generator 插件安装完成！\n使用 /generate-image 开始生成图片。"
       },
       "on_failure": {
         "message": "安装失败：未提供 API Key。请稍后运行以下命令完成配置：\npython ~/.claude-image-plugin/generate_image.py setup"
@@ -36,7 +42,7 @@
       "interactive": false,
       "on_failure": {
         "action": "abort",
-        "message": "API Key 未配置，请先运行安装脚本：python ~/.claude-image-plugin/generate_image.py setup"
+        "message": "API Key 未配置。请先通过以下方式之一完成配置：\n1. 重新安装插件：/plugin marketplace add wolf521/solomkt-image\n2. 手动配置：python ~/.claude-image-plugin/generate_image.py setup"
       }
     },
     {

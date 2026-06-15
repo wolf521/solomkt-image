@@ -1,9 +1,9 @@
 {
-  "id": "image-generator",
+  "id": "wolf521/solomkt-image",
   "name": "Image Generator",
   "version": "1.0.0",
   "description": "基于 GenerateImage API 的 AI 图片生成插件。在 Claude Code 中使用 /generate-image 命令，输入文字描述即可生成高质量 AI 图片，结果直接在对话中渲染展示。",
-  "author": "soloMKT",
+  "author": "wolf521",
   "license": "MIT",
   "category": "image-generation",
   "tags": [
@@ -14,11 +14,23 @@
     "AIGC"
   ],
   "icon": "🖼️",
-  "homepage": "",
-  "repository": "",
+  "homepage": "https://github.com/wolf521/solomkt-image",
+  "repository": "https://github.com/wolf521/solomkt-image.git",
+  "install_command": "/plugin marketplace add wolf521/solomkt-image",
   "requirements": {
     "python": ">=3.8",
     "claude-code": ">=1.0"
+  },
+  "download": {
+    "url": "https://prompt-manager-uat.issmart.com.cn/plugins/image-generator",
+    "files": [
+      "commands/generate-image.md",
+      "scripts/generate_image.py",
+      "hooks/hooks.json",
+      ".mcp.json"
+    ],
+    "checksum": "",
+    "size": ""
   },
   "api": {
     "endpoint": "https://prompt-manager-uat.issmart.com.cn/app-system-prompt/api/GenerateImage",
@@ -44,7 +56,6 @@
     },
     "on_uninstall": {
       "action": "cleanup",
-      "command": "python {plugin_dir}/scripts/generate_image.py config --show",
       "cleanup_paths": [
         "~/.claude-image-plugin"
       ]

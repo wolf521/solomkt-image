@@ -2,6 +2,12 @@
 
 Use this command when the user asks to generate, create, or produce an image. This command calls the GenerateImage API to produce an AI-generated image based on the given prompt.
 
+## Install
+
+```
+/plugin marketplace add wolf521/solomkt-image
+```
+
 ## Usage
 
 ```
@@ -36,10 +42,14 @@ python $env:USERPROFILE\.claude-image-plugin\generate_image.py generate --prompt
   - If the error says "API Key not configured", guide the user through setup:
     1. Ask the user to provide their API Key
     2. Save it by running: `python3 ~/.claude-image-plugin/generate_image.py setup --api-key <KEY>`
+  - If the script is not found, suggest re-installing:
+    ```
+    /plugin marketplace add wolf521/solomkt-image
+    ```
 
 ## Notes
 
 - `$ARGUMENTS` contains the user's image description prompt — always pass it to the script
 - The API Key is stored securely at `~/.claude-image-plugin/config.json`
 - The plugin script is located at `~/.claude-image-plugin/generate_image.py` after installation
-- If the script is not found, tell the user to re-install the plugin from the marketplace
+- Install via marketplace: `/plugin marketplace add wolf521/solomkt-image`

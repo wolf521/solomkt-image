@@ -2,10 +2,13 @@
   "name": "soloMKT-image-marketplace",
   "version": "1.0.0",
   "description": "Claude Code 插件市场 - AI 图片生成服务集合",
-  "author": "soloMKT",
+  "author": "wolf521",
+  "source": "wolf521/solomkt-image",
+  "url": "https://github.com/wolf521/solomkt-image.git",
+  "auto_update": false,
   "plugins": [
     {
-      "id": "image-generator",
+      "id": "wolf521/solomkt-image",
       "name": "Image Generator",
       "description": "基于 GenerateImage API 的 AI 图片生成插件，在 Claude Code 中使用 /generate-image 即可生成图片",
       "version": "1.0.0",
@@ -13,6 +16,16 @@
       "category": "image-generation",
       "tags": ["image", "ai", "generate", "图片生成"],
       "icon": "🖼️",
+      "install": "/plugin marketplace add wolf521/solomkt-image",
+      "download": {
+        "url": "https://prompt-manager-uat.issmart.com.cn/plugins/image-generator",
+        "files": [
+          "commands/generate-image.md",
+          "scripts/generate_image.py",
+          "hooks/hooks.json",
+          ".mcp.json"
+        ]
+      },
       "requires": {
         "python": ">=3.8"
       },
