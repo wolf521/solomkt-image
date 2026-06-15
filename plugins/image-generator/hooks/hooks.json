@@ -1,0 +1,55 @@
+{
+  "hooks": [
+    {
+      "event": "plugin_install",
+      "description": "插件安装时强制要求配置 API Key",
+      "action": "run_script",
+      "command": "python {plugin_dir}/scripts/generate_image.py setup",
+      "interactive": true,
+      "required": true,
+      "prompt": {
+        "title": "Image Generator - API Key 配置",
+        "description": "首次安装此插件需要提供 GenerateImage API Key。\n\n请联系您的系统管理员获取 API Key。\nAPI 地址: https://prompt-manager-uat.issmart.com.cn/app-system-prompt/api/GenerateImage",
+        "fields": [
+          {
+            "name": "api_key",
+            "label": "API Key",
+            "type": "secret",
+            "required": true,
+            "placeholder": "请输入您的 API Key"
+          }
+        ]
+      },
+      "on_success": {
+        "message": "API Key 已保存，图片生成插件安装完成！使用 /generate-image 开始生成图片。"
+      },
+      "on_failure": {
+        "message": "安装失败：未提供 API Key。请稍后运行以下命令完成配置：\npython ~/.claude-image-plugin/generate_image.py setup"
+      }
+    },
+    {
+      "event": "before_command",
+      "command": "generate-image",
+      "description": "执行 /generate-image 前检查 API Key 是否已配置",
+      "action": "run_script",
+      "command": "python {plugin_dir}/scripts/generate_image.py config --show",
+      "interactive": false,
+      "on_failure": {
+        "action": "abort",
+        "message": "API Key 未配置，请先运行安装脚本：python ~/.claude-image-plugin/generate_image.py setup"
+      }
+    },
+    {
+      "event": "plugin_uninstall",
+      "description": "卸载插件时清理本地配置",
+      "action": "run_script",
+      "command": "python {plugin_dir}/scripts/generate_image.py config --show",
+      "interactive": true,
+      "prompt": {
+        "title": "卸载确认",
+        "description": "是否同时删除本地保存的 API Key 配置？（~/.claude-image-plugin/）",
+        "confirm": true
+      }
+    }
+  ]
+}

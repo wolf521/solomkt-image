@@ -1,15 +1,30 @@
-# Claude Code Image Generation Plugin
+# Claude Code Plugin Marketplace
 
-基于 GenerateImage API 的 Claude Code 图片生成插件。在 Claude Code 中使用 `/generate-image` 命令即可快速生成 AI 图片。
+基于 GenerateImage API 的 Claude Code 插件市场，提供 AI 图片生成能力。
 
 ---
 
-## 功能
+## 项目结构
 
-- 在 Claude Code 中通过 `/generate-image <描述>` 快速生成图片
-- 自动返回图片链接，Claude 会直接展示图片
-- API Key 安全存储在本地配置文件中
-- 支持 Windows / macOS / Linux
+```
+soloMKT-image/
+├── .claude-plugin/
+│   └── marketplace.json              # 市场配置（插件注册表）
+├── plugins/
+│   └── image-generator/              # Image Generator 插件
+│       ├── .claude-plugin/
+│       │   └── plugin.json           # 插件元数据
+│       ├── commands/
+│       │   └── generate-image.md     # /generate-image slash command
+│       ├── scripts/
+│       │   └── generate_image.py     # API 调用脚本
+│       ├── hooks/
+│       │   └── hooks.json            # 事件钩子（安装/卸载/命令前检查）
+│       └── .mcp.json                 # MCP 服务配置
+├── setup.ps1                         # Windows 安装脚本
+├── setup.sh                          # macOS/Linux 安装脚本
+└── README.md
+```
 
 ---
 
@@ -25,58 +40,57 @@
 ### Windows（PowerShell）
 
 ```powershell
-# 1. 克隆或下载本仓库
-git clone <your-repo-url>
-cd soloMKT-image
-
-# 2. 运行安装脚本（会提示输入 API Key）
+# 交互式安装（会提示输入 API Key）
 powershell -ExecutionPolicy Bypass -File .\setup.ps1
+
+# 非交互式安装
+powershell -ExecutionPolicy Bypass -File .\setup.ps1 -ApiKey "your-api-key"
 ```
 
 ### macOS / Linux
 
 ```bash
-# 1. 克隆或下载本仓库
-git clone <your-repo-url>
-cd soloMKT-image
-
-# 2. 运行安装脚本（会提示输入 API Key）
+# 交互式安装
 chmod +x setup.sh
 ./setup.sh
+
+# 非交互式安装
+./setup.sh "your-api-key"
 ```
 
 ### 手动安装
 
-如果安装脚本无法运行，可手动完成：
-
 ```bash
-# 1. 创建插件目录
+# 1. 创建安装目录
 mkdir -p ~/.claude-image-plugin
 
 # 2. 复制脚本
-cp scripts/generate_image.py ~/.claude-image-plugin/
+cp plugins/image-generator/scripts/generate_image.py ~/.claude-image-plugin/
 
 # 3. 配置 API Key
 python ~/.claude-image-plugin/generate_image.py setup --api-key YOUR_API_KEY
 
-# 4. 安装 slash command（全局）
+# 4. 安装 slash command
 mkdir -p ~/.claude/commands
-cp .claude/commands/generate-image.md ~/.claude/commands/
+cp plugins/image-generator/commands/generate-image.md ~/.claude/commands/
 ```
 
 ---
 
-## 初次安装 - API Key 配置
+## API Key 配置
 
-安装过程中，**必须提供 API Key**。获取方式：
+**首次安装时必须提供 API Key**，这是强制要求。
 
-> 请联系系统管理员获取您的 API Key，该 Key 用于访问 GenerateImage API 服务。
+> 请联系系统管理员获取 API Key。  
+> API 服务地址: `https://prompt-manager-uat.issmart.com.cn/app-system-prompt/api/GenerateImage`
 
 API Key 存储位置：
-- **Windows**: `C:\Users\<用户名>\.claude-image-plugin\config.json`
-- **macOS/Linux**: `~/.claude-image-plugin/config.json`
+| 系统 | 路径 |
+|------|------|
+| Windows | `C:\Users\<用户名>\.claude-image-plugin\config.json` |
+| macOS/Linux | `~/.claude-image-plugin/config.json` |
 
-如需更换 API Key，运行：
+更换 API Key：
 ```bash
 python ~/.claude-image-plugin/generate_image.py setup
 ```
@@ -91,7 +105,7 @@ python ~/.claude-image-plugin/generate_image.py setup
 /generate-image 一只坐在山顶看日出的猫
 ```
 
-Claude 会调用 API 生成图片并展示结果。
+Claude 会调用 API 生成图片并直接在对话中展示。
 
 ### 更多示例
 
@@ -103,19 +117,31 @@ Claude 会调用 API 生成图片并展示结果。
 
 ---
 
-## 文件结构
+## 插件说明
 
-```
-soloMKT-image/
-├── .claude/
-│   └── commands/
-│       └── generate-image.md    # Claude Code slash command 定义
-├── scripts/
-│   └── generate_image.py        # 核心 API 调用脚本
-├── setup.ps1                    # Windows 安装脚本
-├── setup.sh                     # macOS/Linux 安装脚本
-└── README.md
-```
+### marketplace.json
+
+市场根配置文件，定义市场名称和所包含的插件列表。每个插件条目包括：
+- `id` / `name` / `version` — 插件标识
+- `path` — 插件目录路径
+- `setup` — 安装时的配置要求（API Key 等）
+
+### plugin.json
+
+插件元数据文件，描述插件的：
+- 基本信息（名称、版本、作者、描述）
+- API 契约（端点、请求/响应格式）
+- 安装钩子（`on_install` / `on_uninstall`）
+- 配置项（`api_key` 类型、存储路径、环境变量回退）
+
+### hooks.json
+
+事件钩子配置，在以下时机触发：
+| 事件 | 说明 |
+|------|------|
+| `plugin_install` | 安装时强制要求输入 API Key |
+| `before_command` | 执行 `/generate-image` 前检查 API Key |
+| `plugin_uninstall` | 卸载时询问是否清理配置 |
 
 ---
 
@@ -131,24 +157,36 @@ soloMKT-image/
 
 ---
 
+## 添加新插件
+
+要在此市场中添加新插件，按以下步骤操作：
+
+1. 在 `plugins/` 下创建新目录（如 `plugins/my-new-plugin/`）
+2. 创建 `plugins/my-new-plugin/.claude-plugin/plugin.json`
+3. 添加 `commands/`、`scripts/`、`hooks/` 等目录
+4. 在根目录 `.claude-plugin/marketplace.json` 的 `plugins` 数组中注册
+
+---
+
 ## 故障排查
 
 | 问题 | 解决方法 |
 |------|---------|
 | `API Key not configured` | 运行 `python ~/.claude-image-plugin/generate_image.py setup` |
-| `No module named 'urllib'` | Python 版本过低，请升级至 3.8+ |
 | `command not found: /generate-image` | 重启 Claude Code，确保 slash command 已安装 |
 | HTTP 401 | API Key 无效，请联系管理员 |
-| 网络超时 | 检查网络连接，API 服务器地址需可访问 |
+| 网络超时 | 检查网络连接，API 服务器需可访问 |
 
 ---
 
 ## 卸载
 
 ```bash
-# 删除插件文件
-rm -rf ~/.claude-image-plugin
+# Windows (PowerShell)
+Remove-Item -Recurse -Force "$env:USERPROFILE\.claude-image-plugin"
+Remove-Item -Force "$env:USERPROFILE\.claude\commands\generate-image.md"
 
-# 删除 slash command
+# macOS/Linux
+rm -rf ~/.claude-image-plugin
 rm -f ~/.claude/commands/generate-image.md
 ```

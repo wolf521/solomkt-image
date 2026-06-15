@@ -1,0 +1,35 @@
+{
+  "name": "soloMKT-image-marketplace",
+  "version": "1.0.0",
+  "description": "Claude Code 插件市场 - AI 图片生成服务集合",
+  "author": "soloMKT",
+  "plugins": [
+    {
+      "id": "image-generator",
+      "name": "Image Generator",
+      "description": "基于 GenerateImage API 的 AI 图片生成插件，在 Claude Code 中使用 /generate-image 即可生成图片",
+      "version": "1.0.0",
+      "path": "plugins/image-generator",
+      "category": "image-generation",
+      "tags": ["image", "ai", "generate", "图片生成"],
+      "icon": "🖼️",
+      "requires": {
+        "python": ">=3.8"
+      },
+      "setup": {
+        "required": true,
+        "description": "首次安装需要提供 API Key 以访问 GenerateImage 服务",
+        "steps": [
+          {
+            "action": "prompt",
+            "field": "api_key",
+            "label": "API Key",
+            "description": "请输入您的 GenerateImage API Key（请联系系统管理员获取）",
+            "required": true,
+            "secret": true
+          }
+        ]
+      }
+    }
+  ]
+}

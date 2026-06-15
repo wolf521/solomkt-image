@@ -41,5 +41,5 @@ python $env:USERPROFILE\.claude-image-plugin\generate_image.py generate --prompt
 
 - `$ARGUMENTS` contains the user's image description prompt — always pass it to the script
 - The API Key is stored securely at `~/.claude-image-plugin/config.json`
-- The plugin script is located at `~/.claude-image-plugin/generate_image.py` after setup
-- If the script is not found, tell the user to run the setup script from the plugin directory
+- The plugin script is located at `~/.claude-image-plugin/generate_image.py` after installation
+- If the script is not found, tell the user to re-install the plugin from the marketplace
