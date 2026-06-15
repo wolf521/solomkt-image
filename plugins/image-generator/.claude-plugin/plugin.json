@@ -1,85 +1,8 @@
 {
-  "id": "wolf521/solomkt-image",
-  "name": "Image Generator",
-  "version": "1.0.0",
-  "description": "基于 GenerateImage API 的 AI 图片生成插件。在 Claude Code 中使用 /generate-image 命令，输入文字描述即可生成高质量 AI 图片，结果直接在对话中渲染展示。",
-  "owner": {
+  "name": "image-generator",
+  "description": "Generate AI images from text descriptions. Use /generate-image to create images powered by GenerateImage API. First use requires API Key setup.",
+  "author": {
     "name": "wolf521",
-    "url": "https://github.com/wolf521"
-  },
-  "license": "MIT",
-  "category": "image-generation",
-  "tags": [
-    "image",
-    "ai",
-    "generate",
-    "图片生成",
-    "AIGC"
-  ],
-  "icon": "🖼️",
-  "homepage": "https://github.com/wolf521/solomkt-image",
-  "repository": "https://github.com/wolf521/solomkt-image.git",
-  "install_command": "/plugin marketplace add wolf521/solomkt-image",
-  "requirements": {
-    "python": ">=3.8",
-    "claude-code": ">=1.0"
-  },
-  "download": {
-    "url": "https://prompt-manager-uat.issmart.com.cn/plugins/image-generator",
-    "files": [
-      "commands/generate-image.md",
-      "scripts/generate_image.py",
-      "hooks/hooks.json",
-      ".mcp.json"
-    ],
-    "checksum": "",
-    "size": ""
-  },
-  "api": {
-    "endpoint": "https://prompt-manager-uat.issmart.com.cn/app-system-prompt/api/GenerateImage",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/json",
-      "X-API-Key": "<configured-api-key>"
-    },
-    "request": {
-      "prompt": "string"
-    },
-    "response": {
-      "imageUrl": "string"
-    }
-  },
-  "setup": {
-    "required": true,
-    "on_install": {
-      "action": "prompt_api_key",
-      "description": "首次安装此插件时，必须提供您的 API Key 才能使用图片生成功能。请联系系统管理员获取 API Key。",
-      "command": "python {plugin_dir}/scripts/generate_image.py setup --api-key {api_key}",
-      "storage": "~/.claude-image-plugin/config.json"
-    },
-    "on_uninstall": {
-      "action": "cleanup",
-      "cleanup_paths": [
-        "~/.claude-image-plugin"
-      ]
-    }
-  },
-  "files": {
-    "commands": [
-      "commands/generate-image.md"
-    ],
-    "scripts": [
-      "scripts/generate_image.py"
-    ],
-    "hooks": "hooks/hooks.json"
-  },
-  "configuration": {
-    "api_key": {
-      "type": "secret",
-      "required": true,
-      "description": "GenerateImage API Key - 请联系系统管理员获取",
-      "storage_path": "~/.claude-image-plugin/config.json",
-      "env_fallback": "IMAGE_API_KEY"
-    }
+    "email": "wolf521@users.noreply.github.com"
   }
 }

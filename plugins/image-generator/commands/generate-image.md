@@ -1,55 +1,53 @@
+---
+description: "Generate AI image from text description using GenerateImage API"
+argument-hint: "<image description, e.g. a cat sitting on a mountain at sunrise>"
+allowed-tools: ["Bash", "Read"]
+---
+
 # Generate Image
 
-Use this command when the user asks to generate, create, or produce an image. This command calls the GenerateImage API to produce an AI-generated image based on the given prompt.
+Generate an AI image from the user's text description using the GenerateImage API.
 
-## Install
+## Step 1: Check API Key Configuration
 
-```
-/plugin marketplace add wolf521/solomkt-image
-```
+First, run the config check to see if the API Key is already set up:
 
-## Usage
-
-```
-/generate-image <description of the image to generate>
+```!
+python "${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py" config --show
 ```
 
-## Execution Instructions
+If the output shows `"config_exists": false` or the API Key is missing/empty:
 
-When this command is invoked, perform the following steps:
+1. **Ask the user to provide their API Key** - tell them:
+   > "This plugin requires an API Key to use the GenerateImage API.
+   > Please contact your system administrator to obtain your API Key.
+   > API Endpoint: https://prompt-manager-uat.issmart.com.cn/app-system-prompt/api/GenerateImage"
+2. Once the user provides the key, save it:
 
-### Step 1: Execute the image generation script
-
-Run the following Python script via the Bash tool. Replace `{USER_PROMPT}` with the actual prompt from `$ARGUMENTS`. If the prompt contains single quotes, escape them as `'\''`.
-
-**Linux/macOS:**
-```bash
-python3 ~/.claude-image-plugin/generate_image.py generate --prompt '{USER_PROMPT}'
+```!
+python "${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py" setup --api-key "THE_USER_PROVIDED_KEY"
 ```
 
-**Windows (PowerShell):**
-```powershell
-python $env:USERPROFILE\.claude-image-plugin\generate_image.py generate --prompt "{USER_PROMPT}"
+## Step 2: Generate the Image
+
+Run the generation script with the user's prompt from `$ARGUMENTS`:
+
+```!
+python "${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py" generate --prompt "$ARGUMENTS"
 ```
 
-### Step 2: Interpret and present the result
+## Step 3: Present the Result
 
-- **Success**: The script outputs JSON: `{"success": true, "imageUrl": "<url>"}`
-  - Display the `imageUrl` to the user as a Markdown image: `![generated image](<imageUrl>)`
-  - Also show the raw URL for easy copying
-- **Failure**: The script outputs JSON: `{"success": false, "error": "<message>"}`
-  - Show the error message clearly
-  - If the error says "API Key not configured", guide the user through setup:
-    1. Ask the user to provide their API Key
-    2. Save it by running: `python3 ~/.claude-image-plugin/generate_image.py setup --api-key <KEY>`
-  - If the script is not found, suggest re-installing:
-    ```
-    /plugin marketplace add wolf521/solomkt-image
-    ```
+Parse the JSON output from the script:
 
-## Notes
+- **Success** (`"success": true`): Display the image to the user:
+  ```markdown
+  ![generated image](IMAGE_URL_HERE)
 
-- `$ARGUMENTS` contains the user's image description prompt — always pass it to the script
-- The API Key is stored securely at `~/.claude-image-plugin/config.json`
-- The plugin script is located at `~/.claude-image-plugin/generate_image.py` after installation
-- Install via marketplace: `/plugin marketplace add wolf521/solomkt-image`
+  Image URL: IMAGE_URL_HERE
+  ```
+
+- **Failure** (`"success": false`): Show the error message clearly and suggest fixes:
+  - If `API Key not configured`: Go back to Step 1
+  - If `API error 401`: Tell the user their API Key is invalid, suggest re-running setup
+  - If `Network error`: Tell the user to check their network connection
