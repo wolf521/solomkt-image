@@ -3,7 +3,10 @@
   "name": "Image Generator",
   "version": "1.0.0",
   "description": "基于 GenerateImage API 的 AI 图片生成插件。在 Claude Code 中使用 /generate-image 命令，输入文字描述即可生成高质量 AI 图片，结果直接在对话中渲染展示。",
-  "author": "wolf521",
+  "owner": {
+    "name": "wolf521",
+    "url": "https://github.com/wolf521"
+  },
   "license": "MIT",
   "category": "image-generation",
   "tags": [
