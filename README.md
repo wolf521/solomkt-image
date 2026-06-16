@@ -7,7 +7,7 @@
 <a id="english"></a>
 ## English
 
-AI image generation plugin for Claude Code, powered by GenerateImage API. Built with the Mem9-style hook architecture — automatic auth check on startup, interactive API Key setup on first use.
+AI image generation plugin for Claude Code, powered by GenerateImage API.automatic auth check on startup, interactive API Key setup on first use.
 
 ### Install
 
@@ -173,7 +173,7 @@ rm "${CLAUDE_PLUGIN_DATA}/auth.json"
 <a id="中文"></a>
 ## 中文
 
-基于 GenerateImage API 的 Claude Code AI 图片生成插件。采用与 Mem9 相同的钩子架构 — 启动时自动检查认证配置，首次使用时交互式引导完成 API Key 设置。
+基于 GenerateImage API 的 Claude Code AI 图片生成插件。 启动时自动检查认证配置，首次使用时交互式引导完成 API Key 设置。
 
 ### 安装
 
