@@ -4,8 +4,5 @@
   "author": {
     "name": "wolf521",
     "email": "wolf521@users.noreply.github.com"
-  },
-  "commands": [
-    "./commands/generate-image.md"
-  ]
+  }
 }
