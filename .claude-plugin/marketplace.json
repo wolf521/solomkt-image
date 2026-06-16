@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "solomkt-image",
+  "description": "AI image generation plugin for Claude Code, powered by GenerateImage API",
+  "owner": {
+    "name": "wolf521",
+    "email": "wolf521@users.noreply.github.com"
+  },
+  "plugins": [
+    {
+      "name": "image-generator",
+      "description": "Generate AI images from text descriptions using /generate-image command. Requires API Key for GenerateImage API service.",
+      "author": {
+        "name": "wolf521"
+      },
+      "source": "./plugins/image-generator",
+      "category": "image-generation",
+      "homepage": "https://github.com/wolf521/solomkt-image"
+    }
+  ]
+}
