@@ -1,0 +1,15 @@
+{
+  "name": "image-generator",
+  "version": "1.0.0",
+  "description": "Generate AI images from text descriptions using GenerateImage API. Requires API Key — see setup instructions.",
+  "author": {
+    "name": "wolf521"
+  },
+  "homepage": "https://prompt-manager-uat.issmart.com.cn",
+  "commands": [
+    "./skills/generate-image/SKILL.md"
+  ],
+  "skills": [
+    "./skills/generate-image/SKILL.md"
+  ]
+}
